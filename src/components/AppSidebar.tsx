@@ -16,8 +16,8 @@ const items = [
   { title: "Home", url: "/", icon: Home },
   { title: "Planning & Drafting", url: "/planning", icon: BookOpen },
   { title: "Book Formatting", url: "/formatting", icon: Layers },
-  { title: "AI Cover Design", url: "/covers", icon: Sparkles },
-  { title: "Expert Services", url: "/experts", icon: UserCheck },
+  { title: "Siren's Canvas", url: "/studio", icon: Sparkles },
+  { title: "Expert Sanctuary", url: "/sanctuary", icon: UserCheck },
   { title: "My Library", url: "/library", icon: Library },
   { title: "Settings", url: "/settings", icon: Settings },
 ];

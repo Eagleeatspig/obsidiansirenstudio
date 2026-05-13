@@ -16,7 +16,7 @@ const windows = [
       "Everything you need to plan your story. From character planning to world building, you can build your entire story here.",
     icon: BookOpen,
     href: "/planning",
-    accent: "from-[oklch(0.72_0.13_195)] to-[oklch(0.45_0.12_210)]",
+    accent: "from-[oklch(0.58_0.22_295)] to-[oklch(0.35_0.15_290)]",
   },
   {
     title: "Book Formatting",
@@ -24,23 +24,23 @@ const windows = [
       "Do it yourself or get expert help. Use our self-formatting tool or assisted formatting services.",
     icon: Layers,
     href: "/formatting",
-    accent: "from-[oklch(0.65_0.14_205)] to-[oklch(0.35_0.10_215)]",
+    accent: "from-[oklch(0.65_0.20_300)] to-[oklch(0.32_0.12_285)]",
   },
   {
     title: "AI Cover Design",
     description:
       "Are you a digital art expert or do you have an idea you want to create? Use our AI cover generator or design from scratch.",
     icon: Sparkles,
-    href: "/covers",
-    accent: "from-[oklch(0.78_0.15_188)] to-[oklch(0.50_0.14_200)]",
+    href: "/studio",
+    accent: "from-[oklch(0.72_0.18_305)] to-[oklch(0.40_0.18_295)]",
   },
   {
     title: "Expert Services",
     description:
       "Your book is your brainchild and deserves to be perfect. Find proofreaders, developmental editors, and learn what to do with your finished manuscript.",
     icon: UserCheck,
-    href: "/experts",
-    accent: "from-[oklch(0.60_0.13_210)] to-[oklch(0.30_0.08_220)]",
+    href: "/sanctuary",
+    accent: "from-[oklch(0.85_0.005_285)] to-[oklch(0.30_0.08_285)]",
   },
 ];
 
@@ -98,15 +98,14 @@ function Index() {
                   whispered into one obsidian-dark studio.
                 </p>
                 <div className="mt-10 flex flex-wrap justify-center gap-3">
-                  <Button
-                    size="lg"
-                    className="group bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-[var(--shadow-siren)] hover:opacity-95"
-                  >
-                    Begin Your Book
-                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <Button asChild size="lg" className="group bg-gradient-to-r from-primary to-primary-glow text-primary-foreground shadow-[var(--shadow-siren)] hover:opacity-95">
+                    <Link to="/planning">
+                      Begin Your Book
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="border-border/60 bg-card/40 backdrop-blur hover:bg-card/70">
-                    Explore the Studio
+                  <Button asChild size="lg" variant="outline" className="border-silver text-silver bg-card/40 backdrop-blur hover:bg-card/70 hover:text-silver">
+                    <Link to="/sanctuary">Skip to Expert Services</Link>
                   </Button>
                 </div>
               </div>

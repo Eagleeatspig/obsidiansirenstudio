@@ -9,17 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SanctuaryRouteImport } from './routes/sanctuary'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FormattingRouteImport } from './routes/formatting'
-import { Route as ExpertsRouteImport } from './routes/experts'
-import { Route as CoversRouteImport } from './routes/covers'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SanctuaryRoute = SanctuaryRouteImport.update({
+  id: '/sanctuary',
+  path: '/sanctuary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanningRoute = PlanningRouteImport.update({
@@ -37,16 +47,6 @@ const FormattingRoute = FormattingRouteImport.update({
   path: '/formatting',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExpertsRoute = ExpertsRouteImport.update({
-  id: '/experts',
-  path: '/experts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CoversRoute = CoversRouteImport.update({
-  id: '/covers',
-  path: '/covers',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,79 +55,93 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/covers': typeof CoversRoute
-  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/covers': typeof CoversRoute
-  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/covers': typeof CoversRoute
-  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/covers'
-    | '/experts'
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/sanctuary'
     | '/settings'
+    | '/studio'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/covers'
-    | '/experts'
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/sanctuary'
     | '/settings'
+    | '/studio'
   id:
     | '__root__'
     | '/'
-    | '/covers'
-    | '/experts'
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/sanctuary'
     | '/settings'
+    | '/studio'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CoversRoute: typeof CoversRoute
-  ExpertsRoute: typeof ExpertsRoute
   FormattingRoute: typeof FormattingRoute
   LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
+  SanctuaryRoute: typeof SanctuaryRoute
   SettingsRoute: typeof SettingsRoute
+  StudioRoute: typeof StudioRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sanctuary': {
+      id: '/sanctuary'
+      path: '/sanctuary'
+      fullPath: '/sanctuary'
+      preLoaderRoute: typeof SanctuaryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planning': {
@@ -151,20 +165,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FormattingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/experts': {
-      id: '/experts'
-      path: '/experts'
-      fullPath: '/experts'
-      preLoaderRoute: typeof ExpertsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/covers': {
-      id: '/covers'
-      path: '/covers'
-      fullPath: '/covers'
-      preLoaderRoute: typeof CoversRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -177,12 +177,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CoversRoute: CoversRoute,
-  ExpertsRoute: ExpertsRoute,
   FormattingRoute: FormattingRoute,
   LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
+  SanctuaryRoute: SanctuaryRoute,
   SettingsRoute: SettingsRoute,
+  StudioRoute: StudioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
