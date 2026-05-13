@@ -272,32 +272,33 @@ function FormattingPage() {
                 <p className="text-xs text-muted-foreground">{pages.length} pages · {preset.name}</p>
               </div>
               <div className="flex justify-center">
-                {/* @ts-expect-error react-pageflip types */}
-                <HTMLFlipBook
-                  width={dim.w}
-                  height={dim.h}
-                  size="fixed"
-                  showCover
-                  maxShadowOpacity={0.6}
-                  drawShadow
-                  className="shadow-[var(--shadow-deep)]"
-                >
-                  {/* Cover */}
-                  <FlipPage style={{ ...preset.pageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div className="text-center">
-                      <div className="font-serif text-3xl">Your Book</div>
-                      <div className="mt-2 text-xs uppercase tracking-[0.3em] opacity-60">{preset.name}</div>
-                    </div>
-                  </FlipPage>
-                  {flagged.map(({ p, isFirst }, i) => (
-                    <FlipPage key={i} style={preset.pageStyle}>
-                      <PreviewPage page={p} preset={preset} isFirstChapterBody={isFirst} />
+                {mounted && (
+                  // @ts-expect-error react-pageflip types
+                  <HTMLFlipBook
+                    width={dim.w}
+                    height={dim.h}
+                    size="fixed"
+                    showCover
+                    maxShadowOpacity={0.6}
+                    drawShadow
+                    className="shadow-[var(--shadow-deep)]"
+                  >
+                    <FlipPage style={{ ...preset.pageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <div className="text-center">
+                        <div className="font-serif text-3xl">Your Book</div>
+                        <div className="mt-2 text-xs uppercase tracking-[0.3em] opacity-60">{preset.name}</div>
+                      </div>
                     </FlipPage>
-                  ))}
-                  <FlipPage style={preset.pageStyle}>
-                    <div className="flex h-full items-center justify-center text-center text-sm opacity-60">— End —</div>
-                  </FlipPage>
-                </HTMLFlipBook>
+                    {flagged.map(({ p, isFirst }, i) => (
+                      <FlipPage key={i} style={preset.pageStyle}>
+                        <PreviewPage page={p} preset={preset} isFirstChapterBody={isFirst} />
+                      </FlipPage>
+                    ))}
+                    <FlipPage style={preset.pageStyle}>
+                      <div className="flex h-full items-center justify-center text-center text-sm opacity-60">— End —</div>
+                    </FlipPage>
+                  </HTMLFlipBook>
+                )}
               </div>
             </div>
 
