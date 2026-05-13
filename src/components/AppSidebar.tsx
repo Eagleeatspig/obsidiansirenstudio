@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, BookOpen, Layers, Sparkles, UserCheck, Library, Settings } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 import {
   Sidebar,
   SidebarContent,
@@ -29,9 +30,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent ring-siren">
-            <span className="font-serif text-lg font-bold text-primary-foreground">O</span>
-          </div>
+          <img src={logoMark} alt="Obsidian Siren" className="h-9 w-9 object-contain drop-shadow-[0_0_8px_oklch(0.58_0.22_295/0.6)]" />
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
             <span className="font-serif text-base font-semibold text-foreground">Obsidian</span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-primary">Siren Studio</span>
