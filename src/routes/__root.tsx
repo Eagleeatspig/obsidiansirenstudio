@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -112,6 +113,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <SonnerToaster theme="dark" position="bottom-right" richColors />
     </QueryClientProvider>
   );
 }
