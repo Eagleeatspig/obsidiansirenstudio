@@ -72,6 +72,8 @@ function StudioPage() {
   const drawing = useRef(false);
   const stageRef = useRef<any>(null);
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const onMouseDown = (e: any) => {
     if (tool === "text") {
