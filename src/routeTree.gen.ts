@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as FormattingRouteImport } from './routes/formatting'
+import { Route as ExpertsRouteImport } from './routes/experts'
 import { Route as CoversRouteImport } from './routes/covers'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const PlanningRoute = PlanningRouteImport.update({
 const FormattingRoute = FormattingRouteImport.update({
   id: '/formatting',
   path: '/formatting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpertsRoute = ExpertsRouteImport.update({
+  id: '/experts',
+  path: '/experts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoversRoute = CoversRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/covers': typeof CoversRoute
+  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/covers': typeof CoversRoute
+  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/covers': typeof CoversRoute
+  '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/covers' | '/formatting' | '/planning'
+  fullPaths: '/' | '/covers' | '/experts' | '/formatting' | '/planning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/covers' | '/formatting' | '/planning'
-  id: '__root__' | '/' | '/covers' | '/formatting' | '/planning'
+  to: '/' | '/covers' | '/experts' | '/formatting' | '/planning'
+  id: '__root__' | '/' | '/covers' | '/experts' | '/formatting' | '/planning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoversRoute: typeof CoversRoute
+  ExpertsRoute: typeof ExpertsRoute
   FormattingRoute: typeof FormattingRoute
   PlanningRoute: typeof PlanningRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/formatting'
       fullPath: '/formatting'
       preLoaderRoute: typeof FormattingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experts': {
+      id: '/experts'
+      path: '/experts'
+      fullPath: '/experts'
+      preLoaderRoute: typeof ExpertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/covers': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoversRoute: CoversRoute,
+  ExpertsRoute: ExpertsRoute,
   FormattingRoute: FormattingRoute,
   PlanningRoute: PlanningRoute,
 }
