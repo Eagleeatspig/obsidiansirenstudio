@@ -98,15 +98,14 @@ function Index() {
                   whispered into one obsidian-dark studio.
                 </p>
                 <div className="mt-10 flex flex-wrap justify-center gap-3">
-                  <Button
-                    size="lg"
-                    className="group bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-[var(--shadow-siren)] hover:opacity-95"
-                  >
-                    Begin Your Book
-                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <Button asChild size="lg" className="group bg-gradient-to-r from-primary to-primary-glow text-primary-foreground shadow-[var(--shadow-siren)] hover:opacity-95">
+                    <Link to="/planning">
+                      Begin Your Book
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="border-border/60 bg-card/40 backdrop-blur hover:bg-card/70">
-                    Explore the Studio
+                  <Button asChild size="lg" variant="outline" className="border-silver text-silver bg-card/40 backdrop-blur hover:bg-card/70 hover:text-silver">
+                    <Link to="/sanctuary">Skip to Expert Services</Link>
                   </Button>
                 </div>
               </div>
