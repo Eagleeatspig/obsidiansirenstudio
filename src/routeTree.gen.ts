@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SanctuaryRouteImport } from './routes/sanctuary'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FormattingRouteImport } from './routes/formatting'
@@ -24,6 +25,11 @@ const StudioRoute = StudioRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SanctuaryRoute = SanctuaryRouteImport.update({
+  id: '/sanctuary',
+  path: '/sanctuary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanningRoute = PlanningRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
 }
@@ -79,16 +88,25 @@ export interface FileRouteTypes {
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/sanctuary'
     | '/settings'
     | '/studio'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/formatting' | '/library' | '/planning' | '/settings' | '/studio'
+  to:
+    | '/'
+    | '/formatting'
+    | '/library'
+    | '/planning'
+    | '/sanctuary'
+    | '/settings'
+    | '/studio'
   id:
     | '__root__'
     | '/'
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/sanctuary'
     | '/settings'
     | '/studio'
   fileRoutesById: FileRoutesById
@@ -98,6 +116,7 @@ export interface RootRouteChildren {
   FormattingRoute: typeof FormattingRoute
   LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
+  SanctuaryRoute: typeof SanctuaryRoute
   SettingsRoute: typeof SettingsRoute
   StudioRoute: typeof StudioRoute
 }
@@ -116,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sanctuary': {
+      id: '/sanctuary'
+      path: '/sanctuary'
+      fullPath: '/sanctuary'
+      preLoaderRoute: typeof SanctuaryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planning': {
@@ -154,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   FormattingRoute: FormattingRoute,
   LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
+  SanctuaryRoute: SanctuaryRoute,
   SettingsRoute: SettingsRoute,
   StudioRoute: StudioRoute,
 }
