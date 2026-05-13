@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as FormattingRouteImport } from './routes/formatting'
+import { Route as CoversRouteImport } from './routes/covers'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PlanningRoute = PlanningRouteImport.update({
@@ -23,6 +24,11 @@ const FormattingRoute = FormattingRouteImport.update({
   path: '/formatting',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoversRoute = CoversRouteImport.update({
+  id: '/covers',
+  path: '/covers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/covers': typeof CoversRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/covers': typeof CoversRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/covers': typeof CoversRoute
   '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/formatting' | '/planning'
+  fullPaths: '/' | '/covers' | '/formatting' | '/planning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/formatting' | '/planning'
-  id: '__root__' | '/' | '/formatting' | '/planning'
+  to: '/' | '/covers' | '/formatting' | '/planning'
+  id: '__root__' | '/' | '/covers' | '/formatting' | '/planning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CoversRoute: typeof CoversRoute
   FormattingRoute: typeof FormattingRoute
   PlanningRoute: typeof PlanningRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FormattingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/covers': {
+      id: '/covers'
+      path: '/covers'
+      fullPath: '/covers'
+      preLoaderRoute: typeof CoversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CoversRoute: CoversRoute,
   FormattingRoute: FormattingRoute,
   PlanningRoute: PlanningRoute,
 }
