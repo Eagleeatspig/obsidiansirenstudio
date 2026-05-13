@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Text } from "react-konva";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -24,6 +24,8 @@ export function FantasyMapBuilder() {
   const [items, setItems] = useState<Placed[]>([]);
   const stageRef = useRef<any>(null);
   const dragIcon = useRef<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <div className="grid gap-4 lg:grid-cols-[200px_1fr]">
@@ -66,21 +68,23 @@ export function FantasyMapBuilder() {
           dragIcon.current = null;
         }}
       >
-        <Stage ref={stageRef} width={800} height={560} className="!h-[560px] !w-full">
-          <Layer>
-            {items.map((it) => (
-              <Text
-                key={it.id}
-                x={it.x - 18}
-                y={it.y - 18}
-                text={it.icon}
-                fontSize={36}
-                draggable
-                onDblClick={() => setItems((all) => all.filter((a) => a.id !== it.id))}
-              />
-            ))}
-          </Layer>
-        </Stage>
+        {mounted && (
+          <Stage ref={stageRef} width={800} height={560} className="!h-[560px] !w-full">
+            <Layer>
+              {items.map((it) => (
+                <Text
+                  key={it.id}
+                  x={it.x - 18}
+                  y={it.y - 18}
+                  text={it.icon}
+                  fontSize={36}
+                  draggable
+                  onDblClick={() => setItems((all) => all.filter((a) => a.id !== it.id))}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        )}
         {items.length === 0 && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
             Drag stamps onto the canvas. Double-click a stamp to remove.
