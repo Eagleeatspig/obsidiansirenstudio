@@ -4,6 +4,8 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Layers, Sparkles, UserCheck, ArrowRight, Feather } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import logoHero from "@/assets/logo-hero.png";
+import logoMark from "@/assets/logo-mark.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
