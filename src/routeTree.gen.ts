@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FormattingRouteImport } from './routes/formatting'
@@ -16,6 +17,11 @@ import { Route as ExpertsRouteImport } from './routes/experts'
 import { Route as CoversRouteImport } from './routes/covers'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlanningRoute = PlanningRouteImport.update({
   id: '/planning',
   path: '/planning',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,8 +90,16 @@ export interface FileRouteTypes {
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/covers' | '/experts' | '/formatting' | '/library' | '/planning'
+  to:
+    | '/'
+    | '/covers'
+    | '/experts'
+    | '/formatting'
+    | '/library'
+    | '/planning'
+    | '/settings'
   id:
     | '__root__'
     | '/'
@@ -91,6 +108,7 @@ export interface FileRouteTypes {
     | '/formatting'
     | '/library'
     | '/planning'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -100,10 +118,18 @@ export interface RootRouteChildren {
   FormattingRoute: typeof FormattingRoute
   LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
+  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/planning': {
       id: '/planning'
       path: '/planning'
@@ -156,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   FormattingRoute: FormattingRoute,
   LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
+  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
