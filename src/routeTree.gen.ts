@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as LibraryRouteImport } from './routes/library'
+import { Route as FormattingRouteImport } from './routes/formatting'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SettingsRoute = SettingsRouteImport.update({
@@ -29,6 +30,11 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FormattingRoute = FormattingRouteImport.update({
+  id: '/formatting',
+  path: '/formatting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/settings': typeof SettingsRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/library' | '/planning' | '/settings'
+  fullPaths: '/' | '/formatting' | '/library' | '/planning' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/library' | '/planning' | '/settings'
-  id: '__root__' | '/' | '/library' | '/planning' | '/settings'
+  to: '/' | '/formatting' | '/library' | '/planning' | '/settings'
+  id: '__root__' | '/' | '/formatting' | '/library' | '/planning' | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FormattingRoute: typeof FormattingRoute
   LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
   SettingsRoute: typeof SettingsRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/formatting': {
+      id: '/formatting'
+      path: '/formatting'
+      fullPath: '/formatting'
+      preLoaderRoute: typeof FormattingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FormattingRoute: FormattingRoute,
   LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
   SettingsRoute: SettingsRoute,
@@ -111,3 +129,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
