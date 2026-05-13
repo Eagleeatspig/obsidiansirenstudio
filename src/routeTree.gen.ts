@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlanningRouteImport } from './routes/planning'
+import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FormattingRouteImport } from './routes/formatting'
 import { Route as ExpertsRouteImport } from './routes/experts'
 import { Route as CoversRouteImport } from './routes/covers'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const PlanningRoute = PlanningRouteImport.update({
   id: '/planning',
   path: '/planning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FormattingRoute = FormattingRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/covers': typeof CoversRoute
   '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
+  '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/covers': typeof CoversRoute
   '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
+  '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,28 @@ export interface FileRoutesById {
   '/covers': typeof CoversRoute
   '/experts': typeof ExpertsRoute
   '/formatting': typeof FormattingRoute
+  '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/covers' | '/experts' | '/formatting' | '/planning'
+  fullPaths:
+    | '/'
+    | '/covers'
+    | '/experts'
+    | '/formatting'
+    | '/library'
+    | '/planning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/covers' | '/experts' | '/formatting' | '/planning'
-  id: '__root__' | '/' | '/covers' | '/experts' | '/formatting' | '/planning'
+  to: '/' | '/covers' | '/experts' | '/formatting' | '/library' | '/planning'
+  id:
+    | '__root__'
+    | '/'
+    | '/covers'
+    | '/experts'
+    | '/formatting'
+    | '/library'
+    | '/planning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +98,7 @@ export interface RootRouteChildren {
   CoversRoute: typeof CoversRoute
   ExpertsRoute: typeof ExpertsRoute
   FormattingRoute: typeof FormattingRoute
+  LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
 }
 
@@ -86,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/planning'
       fullPath: '/planning'
       preLoaderRoute: typeof PlanningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/formatting': {
@@ -124,6 +154,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoversRoute: CoversRoute,
   ExpertsRoute: ExpertsRoute,
   FormattingRoute: FormattingRoute,
+  LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
 }
 export const routeTree = rootRouteImport
