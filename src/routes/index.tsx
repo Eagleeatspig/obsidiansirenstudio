@@ -52,18 +52,23 @@ function Index() {
       <div className="flex min-h-screen w-full">
         <AppSidebar />
         <div className="flex flex-1 flex-col">
-          <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/40 bg-background/60 px-4 backdrop-blur-xl">
+          <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-primary/20 bg-background/70 px-4 backdrop-blur-xl">
             <div className="flex items-center gap-3">
               <SidebarTrigger />
-              <div className="hidden items-center gap-2 sm:flex">
-                <Feather className="h-4 w-4 text-primary" />
-                <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                  Obsidian Siren Studio
-                </span>
-              </div>
+              <Link to="/" className="flex items-center gap-2">
+                <img src={logoMark} alt="Obsidian Siren" className="h-10 w-10 object-contain drop-shadow-[0_0_10px_oklch(0.58_0.22_295/0.7)]" />
+                <span className="hidden font-serif text-sm tracking-wider text-silver sm:inline">OBSIDIAN SIREN</span>
+              </Link>
             </div>
+            <nav className="hidden items-center gap-1 md:flex">
+              {windows.map((w) => (
+                <Link key={w.href} to={w.href} className="rounded-md px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-silver/70 transition-colors hover:bg-primary/10 hover:text-primary">
+                  {w.title.split(" ")[0]}
+                </Link>
+              ))}
+            </nav>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              <Button variant="ghost" size="sm" className="text-silver hover:text-primary">
                 Sign in
               </Button>
               <Button size="sm" className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90">
@@ -80,10 +85,15 @@ function Index() {
                 alt=""
                 width={1920}
                 height={1080}
-                className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-50"
+                className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
-              <div className="relative mx-auto max-w-5xl px-6 py-28 text-center sm:py-36">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
+              <div className="relative mx-auto max-w-5xl px-6 py-20 text-center sm:py-28">
+                <img
+                  src={logoHero}
+                  alt="Obsidian Siren Studio"
+                  className="mx-auto mb-8 w-full max-w-md drop-shadow-[0_0_40px_oklch(0.58_0.22_295/0.5)]"
+                />
                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-primary backdrop-blur">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
                   A new chapter begins
