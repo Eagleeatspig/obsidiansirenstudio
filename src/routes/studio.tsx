@@ -218,50 +218,52 @@ function StudioPage() {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-border/60 bg-[#0a0a0a]">
-              <Stage
-                ref={stageRef}
-                width={520}
-                height={680}
-                className="!h-[680px] !w-full"
-                onMouseDown={onMouseDown}
-                onMousemove={onMouseMove}
-                onMouseup={onMouseUp}
-                onTouchStart={onMouseDown}
-                onTouchMove={onMouseMove}
-                onTouchEnd={onMouseUp}
-              >
-                <Layer>
-                  {bgImage && <KImage image={bgImage} width={520} height={680} />}
-                  {strokes.map((s, i) => (
-                    <Line
-                      key={i}
-                      points={s.points}
-                      stroke={s.color}
-                      strokeWidth={s.size}
-                      tension={0.5}
-                      lineCap="round"
-                      lineJoin="round"
-                      globalCompositeOperation={s.tool === "eraser" ? "destination-out" : "source-over"}
-                    />
-                  ))}
-                  {texts.map((t) => (
-                    <KText
-                      key={t.id}
-                      x={t.x}
-                      y={t.y}
-                      text={t.text}
-                      fontSize={t.size}
-                      fontFamily="'Cormorant Garamond', serif"
-                      fill={t.color}
-                      draggable
-                      onDblClick={() => {
-                        const next = window.prompt("Edit text", t.text) ?? t.text;
-                        setTexts((ts) => ts.map((x) => x.id === t.id ? { ...x, text: next } : x));
-                      }}
-                    />
-                  ))}
-                </Layer>
-              </Stage>
+              {mounted && (
+                <Stage
+                  ref={stageRef}
+                  width={520}
+                  height={680}
+                  className="!h-[680px] !w-full"
+                  onMouseDown={onMouseDown}
+                  onMousemove={onMouseMove}
+                  onMouseup={onMouseUp}
+                  onTouchStart={onMouseDown}
+                  onTouchMove={onMouseMove}
+                  onTouchEnd={onMouseUp}
+                >
+                  <Layer>
+                    {bgImage && <KImage image={bgImage} width={520} height={680} />}
+                    {strokes.map((s, i) => (
+                      <Line
+                        key={i}
+                        points={s.points}
+                        stroke={s.color}
+                        strokeWidth={s.size}
+                        tension={0.5}
+                        lineCap="round"
+                        lineJoin="round"
+                        globalCompositeOperation={s.tool === "eraser" ? "destination-out" : "source-over"}
+                      />
+                    ))}
+                    {texts.map((t) => (
+                      <KText
+                        key={t.id}
+                        x={t.x}
+                        y={t.y}
+                        text={t.text}
+                        fontSize={t.size}
+                        fontFamily="'Cormorant Garamond', serif"
+                        fill={t.color}
+                        draggable
+                        onDblClick={() => {
+                          const next = window.prompt("Edit text", t.text) ?? t.text;
+                          setTexts((ts) => ts.map((x) => x.id === t.id ? { ...x, text: next } : x));
+                        }}
+                      />
+                    ))}
+                  </Layer>
+                </Stage>
+              )}
             </div>
             <p className="mt-2 text-xs text-muted-foreground">Double-click text to edit. Drag to reposition.</p>
           </section>
