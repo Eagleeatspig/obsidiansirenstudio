@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useMemo, useRef, useState, forwardRef, ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, forwardRef, ReactNode } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { Upload, FileText } from "lucide-react";
 import { toast } from "sonner";
@@ -147,6 +147,8 @@ function FormattingPage() {
   const [trim, setTrim] = useState("6x9");
   const [text, setText] = useState(SAMPLE);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const pages = useMemo(() => paginate(text), [text]);
   const preset = PRESETS[genre];
