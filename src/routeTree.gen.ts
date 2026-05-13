@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlanningRouteImport } from './routes/planning'
+import { Route as FormattingRouteImport } from './routes/formatting'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PlanningRoute = PlanningRouteImport.update({
   id: '/planning',
   path: '/planning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormattingRoute = FormattingRouteImport.update({
+  id: '/formatting',
+  path: '/formatting',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/formatting': typeof FormattingRoute
   '/planning': typeof PlanningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/planning'
+  fullPaths: '/' | '/formatting' | '/planning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/planning'
-  id: '__root__' | '/' | '/planning'
+  to: '/' | '/formatting' | '/planning'
+  id: '__root__' | '/' | '/formatting' | '/planning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FormattingRoute: typeof FormattingRoute
   PlanningRoute: typeof PlanningRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/planning'
       fullPath: '/planning'
       preLoaderRoute: typeof PlanningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formatting': {
+      id: '/formatting'
+      path: '/formatting'
+      fullPath: '/formatting'
+      preLoaderRoute: typeof FormattingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FormattingRoute: FormattingRoute,
   PlanningRoute: PlanningRoute,
 }
 export const routeTree = rootRouteImport
