@@ -9,14 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WeaveRouteImport } from './routes/weave'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ScholarRouteImport } from './routes/scholar'
 import { Route as SanctuaryRouteImport } from './routes/sanctuary'
 import { Route as PlanningRouteImport } from './routes/planning'
 import { Route as LibraryRouteImport } from './routes/library'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as FormattingRouteImport } from './routes/formatting'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResearchVaultRouteImport } from './routes/research.vault'
+import { Route as ResearchScriptoriumRouteImport } from './routes/research.scriptorium'
+import { Route as ResearchCitationsRouteImport } from './routes/research.citations'
 
+const WeaveRoute = WeaveRouteImport.update({
+  id: '/weave',
+  path: '/weave',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
   path: '/studio',
@@ -25,6 +37,11 @@ const StudioRoute = StudioRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScholarRoute = ScholarRouteImport.update({
+  id: '/scholar',
+  path: '/scholar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SanctuaryRoute = SanctuaryRouteImport.update({
@@ -42,9 +59,19 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FormattingRoute = FormattingRouteImport.update({
   id: '/formatting',
   path: '/formatting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -52,77 +79,148 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchVaultRoute = ResearchVaultRouteImport.update({
+  id: '/research/vault',
+  path: '/research/vault',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchScriptoriumRoute = ResearchScriptoriumRouteImport.update({
+  id: '/research/scriptorium',
+  path: '/research/scriptorium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchCitationsRoute = ResearchCitationsRouteImport.update({
+  id: '/research/citations',
+  path: '/research/citations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/formatting': typeof FormattingRoute
+  '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/sanctuary': typeof SanctuaryRoute
+  '/scholar': typeof ScholarRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
+  '/weave': typeof WeaveRoute
+  '/research/citations': typeof ResearchCitationsRoute
+  '/research/scriptorium': typeof ResearchScriptoriumRoute
+  '/research/vault': typeof ResearchVaultRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/formatting': typeof FormattingRoute
+  '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/sanctuary': typeof SanctuaryRoute
+  '/scholar': typeof ScholarRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
+  '/weave': typeof WeaveRoute
+  '/research/citations': typeof ResearchCitationsRoute
+  '/research/scriptorium': typeof ResearchScriptoriumRoute
+  '/research/vault': typeof ResearchVaultRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/formatting': typeof FormattingRoute
+  '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/planning': typeof PlanningRoute
   '/sanctuary': typeof SanctuaryRoute
+  '/scholar': typeof ScholarRoute
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
+  '/weave': typeof WeaveRoute
+  '/research/citations': typeof ResearchCitationsRoute
+  '/research/scriptorium': typeof ResearchScriptoriumRoute
+  '/research/vault': typeof ResearchVaultRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/formatting'
+    | '/help'
     | '/library'
     | '/planning'
     | '/sanctuary'
+    | '/scholar'
     | '/settings'
     | '/studio'
+    | '/weave'
+    | '/research/citations'
+    | '/research/scriptorium'
+    | '/research/vault'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/formatting'
+    | '/help'
     | '/library'
     | '/planning'
     | '/sanctuary'
+    | '/scholar'
     | '/settings'
     | '/studio'
+    | '/weave'
+    | '/research/citations'
+    | '/research/scriptorium'
+    | '/research/vault'
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/formatting'
+    | '/help'
     | '/library'
     | '/planning'
     | '/sanctuary'
+    | '/scholar'
     | '/settings'
     | '/studio'
+    | '/weave'
+    | '/research/citations'
+    | '/research/scriptorium'
+    | '/research/vault'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   FormattingRoute: typeof FormattingRoute
+  HelpRoute: typeof HelpRoute
   LibraryRoute: typeof LibraryRoute
   PlanningRoute: typeof PlanningRoute
   SanctuaryRoute: typeof SanctuaryRoute
+  ScholarRoute: typeof ScholarRoute
   SettingsRoute: typeof SettingsRoute
   StudioRoute: typeof StudioRoute
+  WeaveRoute: typeof WeaveRoute
+  ResearchCitationsRoute: typeof ResearchCitationsRoute
+  ResearchScriptoriumRoute: typeof ResearchScriptoriumRoute
+  ResearchVaultRoute: typeof ResearchVaultRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/weave': {
+      id: '/weave'
+      path: '/weave'
+      fullPath: '/weave'
+      preLoaderRoute: typeof WeaveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studio': {
       id: '/studio'
       path: '/studio'
@@ -135,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scholar': {
+      id: '/scholar'
+      path: '/scholar'
+      fullPath: '/scholar'
+      preLoaderRoute: typeof ScholarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sanctuary': {
@@ -158,11 +263,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/formatting': {
       id: '/formatting'
       path: '/formatting'
       fullPath: '/formatting'
       preLoaderRoute: typeof FormattingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -172,28 +291,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research/vault': {
+      id: '/research/vault'
+      path: '/research/vault'
+      fullPath: '/research/vault'
+      preLoaderRoute: typeof ResearchVaultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research/scriptorium': {
+      id: '/research/scriptorium'
+      path: '/research/scriptorium'
+      fullPath: '/research/scriptorium'
+      preLoaderRoute: typeof ResearchScriptoriumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research/citations': {
+      id: '/research/citations'
+      path: '/research/citations'
+      fullPath: '/research/citations'
+      preLoaderRoute: typeof ResearchCitationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   FormattingRoute: FormattingRoute,
+  HelpRoute: HelpRoute,
   LibraryRoute: LibraryRoute,
   PlanningRoute: PlanningRoute,
   SanctuaryRoute: SanctuaryRoute,
+  ScholarRoute: ScholarRoute,
   SettingsRoute: SettingsRoute,
   StudioRoute: StudioRoute,
+  WeaveRoute: WeaveRoute,
+  ResearchCitationsRoute: ResearchCitationsRoute,
+  ResearchScriptoriumRoute: ResearchScriptoriumRoute,
+  ResearchVaultRoute: ResearchVaultRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
