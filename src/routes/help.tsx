@@ -42,7 +42,7 @@ function HelpPage() {
   };
 
   return (
-    <StudioLayout title="Ask Obsidian">
+    <StudioLayout title="Ask Obsidian" publicPage>
       <div className="mx-auto max-w-3xl px-6 py-12">
         <PageHeader topLabel="Help & Support" bigTitle="Ask Obsidian" sub="Frequently whispered questions, and a Siren who'll answer the rest." />
 
