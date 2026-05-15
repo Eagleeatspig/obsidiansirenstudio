@@ -63,7 +63,7 @@ function PlanningPage() {
             <TabsTrigger value="canvas">Relationship Canvas</TabsTrigger>
             <TabsTrigger value="world">World Building</TabsTrigger>
             <TabsTrigger value="map">Fantasy Map</TabsTrigger>
-            <TabsTrigger value="storyline">Storyline</TabsTrigger>
+            <TabsTrigger value="storyline">Plot Points</TabsTrigger>
             <TabsTrigger value="conflict">Conflict & Arcs</TabsTrigger>
             <TabsTrigger value="write">Writing Suite</TabsTrigger>
           </TabsList>

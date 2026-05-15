@@ -15,13 +15,13 @@ const fictionItems = [
   { title: "Planning & Drafting", url: "/planning", icon: BookOpen },
   { title: "Book Formatting", url: "/formatting", icon: Layers },
   { title: "Cover Studio", url: "/studio", icon: Sparkles },
-  { title: "Expert Services", url: "/sanctuary", icon: UserCheck },
+  { title: "Expert Consultation", url: "/sanctuary", icon: UserCheck },
 ];
 const academicItems = [
   { title: "Research Vault", url: "/research/vault", icon: FolderOpen },
   { title: "Scriptorium (Writing)", url: "/research/scriptorium", icon: PenLine },
   { title: "Citations", url: "/research/citations", icon: Quote },
-  { title: "Expert Review", url: "/sanctuary", icon: UserCheck },
+  { title: "Expert Consultation", url: "/sanctuary", icon: UserCheck },
 ];
 const utilityItems = [
   { title: "My Library", url: "/library", icon: Library },
