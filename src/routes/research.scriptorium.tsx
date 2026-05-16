@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useServerFn } from "@tanstack/react-start";
 import { researchAssistant } from "@/lib/research.functions";
+import { webResearch } from "@/lib/muse.functions";
 import { toast } from "sonner";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Globe, BookMarked } from "lucide-react";
 
 export const Route = createFileRoute("/research/scriptorium")({
   head: () => ({ meta: [{ title: "Scriptorium — Scholar's Sanctum" }] }),
@@ -24,17 +25,21 @@ function ScriptoriumPage() {
   const [draft, setDraft] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("scriptorium.draft") ?? "" : ""));
   useEffect(() => { localStorage.setItem("scriptorium.draft", draft); }, [draft]);
 
-  const ask = useServerFn(researchAssistant);
+  const askVault = useServerFn(researchAssistant);
+  const askWeb = useServerFn(webResearch);
   const [q, setQ] = useState("");
-  const [history, setHistory] = useState<{ q: string; a: string }[]>([]);
+  const [mode, setLocalMode] = useState<"vault" | "web">("vault");
+  const [history, setHistory] = useState<{ q: string; a: string; mode: "vault" | "web" }[]>([]);
   const [busy, setBusy] = useState(false);
 
   const onAsk = async () => {
     if (!q.trim()) return;
     setBusy(true);
     try {
-      const res = await ask({ data: { question: q } });
-      setHistory((h) => [...h, { q, a: res.answer }]);
+      const res = mode === "vault"
+        ? await askVault({ data: { question: q } })
+        : await askWeb({ data: { question: q } });
+      setHistory((h) => [...h, { q, a: res.answer, mode }]);
       setQ("");
     } catch (e: any) { toast.error(e.message); }
     finally { setBusy(false); }
@@ -62,14 +67,24 @@ function ScriptoriumPage() {
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Research Assistant
             </div>
+            <div className="mb-3 grid grid-cols-2 gap-1 rounded-lg border border-border/60 bg-background/40 p-1">
+              <button onClick={() => setLocalMode("vault")} className={`flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[10px] uppercase tracking-[0.18em] transition ${mode === "vault" ? "bg-primary/20 text-primary" : "text-silver/70 hover:text-foreground"}`}>
+                <BookMarked className="h-3 w-3" /> Vault
+              </button>
+              <button onClick={() => setLocalMode("web")} className={`flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[10px] uppercase tracking-[0.18em] transition ${mode === "web" ? "bg-primary/20 text-primary" : "text-silver/70 hover:text-foreground"}`}>
+                <Globe className="h-3 w-3" /> General
+              </button>
+            </div>
             <p className="mb-3 text-[11px] text-muted-foreground">
-              Answers grounded ONLY in your <Link to="/research/vault" className="text-primary underline">Source Vault</Link>.
+              {mode === "vault"
+                ? <>Grounded in your <Link to="/research/vault" className="text-primary underline">Source Vault</Link>.</>
+                : <>General scholarly synthesis. Claims marked <code className="text-primary">[verify]</code> need confirmation.</>}
             </p>
             <div className="flex-1 space-y-3 overflow-y-auto pr-1">
               {history.length === 0 && <p className="text-xs text-muted-foreground">Ask anything about your sources.</p>}
               {history.map((h, i) => (
                 <div key={i} className="space-y-1">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-primary">You</p>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-primary">You · {h.mode}</p>
                   <p className="text-xs text-foreground">{h.q}</p>
                   <p className="text-[11px] uppercase tracking-[0.2em] text-silver/70">Siren</p>
                   <p className="whitespace-pre-wrap text-xs text-silver">{h.a}</p>
