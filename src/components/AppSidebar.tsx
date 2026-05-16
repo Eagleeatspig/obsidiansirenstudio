@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 
 const fictionItems = [
   { title: "Planning & Drafting", url: "/planning", icon: BookOpen },
+  { title: "Writing Suite", url: "/writing", icon: PenLine },
   { title: "Book Formatting", url: "/formatting", icon: Layers },
   { title: "Cover Studio", url: "/studio", icon: Sparkles },
   { title: "Expert Consultation", url: "/sanctuary", icon: UserCheck },
