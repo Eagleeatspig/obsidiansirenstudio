@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Sparkles, BookOpen, Layers, UserCheck, ArrowRight } from "lucide-react";
 import { useEffect } from "react";
 import { useMode } from "@/lib/mode";
+import { DailyMuse } from "@/components/DailyMuse";
 
 export const Route = createFileRoute("/weave")({
   head: () => ({ meta: [{ title: "The Weaver's Path — Obsidian Siren Studio" }] }),
@@ -25,6 +26,7 @@ function WeavePage() {
     <StudioLayout title="Weaver Dashboard">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <PageHeader topLabel="Creative Studio" bigTitle="The Weaver's Path" sub="Enter at any stage. The Siren keeps the threads of your journey." />
+        <div className="mb-6"><DailyMuse /></div>
         <div className="mb-4 text-xs uppercase tracking-[0.3em] text-silver/70">Quick Start</div>
         <div className="grid gap-5 md:grid-cols-2">
           {stages.map((s) => (
