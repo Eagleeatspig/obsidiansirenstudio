@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WritingRouteImport } from './routes/writing'
 import { Route as WeaveRouteImport } from './routes/weave'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -24,6 +25,11 @@ import { Route as ResearchVaultRouteImport } from './routes/research.vault'
 import { Route as ResearchScriptoriumRouteImport } from './routes/research.scriptorium'
 import { Route as ResearchCitationsRouteImport } from './routes/research.citations'
 
+const WritingRoute = WritingRouteImport.update({
+  id: '/writing',
+  path: '/writing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WeaveRoute = WeaveRouteImport.update({
   id: '/weave',
   path: '/weave',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
   '/weave': typeof WeaveRoute
+  '/writing': typeof WritingRoute
   '/research/citations': typeof ResearchCitationsRoute
   '/research/scriptorium': typeof ResearchScriptoriumRoute
   '/research/vault': typeof ResearchVaultRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
   '/weave': typeof WeaveRoute
+  '/writing': typeof WritingRoute
   '/research/citations': typeof ResearchCitationsRoute
   '/research/scriptorium': typeof ResearchScriptoriumRoute
   '/research/vault': typeof ResearchVaultRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/studio': typeof StudioRoute
   '/weave': typeof WeaveRoute
+  '/writing': typeof WritingRoute
   '/research/citations': typeof ResearchCitationsRoute
   '/research/scriptorium': typeof ResearchScriptoriumRoute
   '/research/vault': typeof ResearchVaultRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/studio'
     | '/weave'
+    | '/writing'
     | '/research/citations'
     | '/research/scriptorium'
     | '/research/vault'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/studio'
     | '/weave'
+    | '/writing'
     | '/research/citations'
     | '/research/scriptorium'
     | '/research/vault'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/studio'
     | '/weave'
+    | '/writing'
     | '/research/citations'
     | '/research/scriptorium'
     | '/research/vault'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   StudioRoute: typeof StudioRoute
   WeaveRoute: typeof WeaveRoute
+  WritingRoute: typeof WritingRoute
   ResearchCitationsRoute: typeof ResearchCitationsRoute
   ResearchScriptoriumRoute: typeof ResearchScriptoriumRoute
   ResearchVaultRoute: typeof ResearchVaultRoute
@@ -214,6 +227,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/writing': {
+      id: '/writing'
+      path: '/writing'
+      fullPath: '/writing'
+      preLoaderRoute: typeof WritingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/weave': {
       id: '/weave'
       path: '/weave'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   StudioRoute: StudioRoute,
   WeaveRoute: WeaveRoute,
+  WritingRoute: WritingRoute,
   ResearchCitationsRoute: ResearchCitationsRoute,
   ResearchScriptoriumRoute: ResearchScriptoriumRoute,
   ResearchVaultRoute: ResearchVaultRoute,
@@ -334,13 +355,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
