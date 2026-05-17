@@ -7,6 +7,8 @@ import { loadPersisted, usePersisted } from "@/lib/persist";
 import { toast } from "sonner";
 
 type Section = { id: string; label: string; value: string };
+type Category = { name: string; fields: string[] };
+type Placed = { id: string; icon: string; x: number; y: number };
 
 export function SynopsisPanel() {
   const summarize = useServerFn(summarizePlot);
@@ -14,15 +16,56 @@ export function SynopsisPanel() {
   const [busy, setBusy] = useState(false);
 
   const onAnalyze = async () => {
-    const plot = loadPersisted<Section[]>("plot.sections", []);
-    const conflict = loadPersisted<Record<string, string>>("conflict.values", {});
-
     const points: { label: string; content: string }[] = [];
-    plot.filter((s) => s.value?.trim()).forEach((s) => points.push({ label: `[Plot] ${s.label}`, content: s.value }));
-    Object.entries(conflict).filter(([, v]) => v?.trim()).forEach(([k, v]) => points.push({ label: `[Conflict] ${k}`, content: v }));
+
+    // Characters
+    const charCats = loadPersisted<Category[]>("characters.categories", []);
+    const chars = loadPersisted<Record<string, Record<string, string>>[]>("characters.list", []);
+    chars.forEach((c, i) => {
+      const name = (c as any)["Core Identity"]?.Name?.trim() || `Character ${i + 1}`;
+      const lines: string[] = [];
+      charCats.forEach(({ name: section, fields }) => {
+        fields.forEach((f) => {
+          const v = ((c as any)?.[section]?.[f] as string)?.trim();
+          if (v) lines.push(`${section} — ${f}: ${v}`);
+        });
+      });
+      if (lines.length) points.push({ label: `[Character] ${name}`, content: lines.join("\n") });
+    });
+
+    // World building
+    const worldCats = loadPersisted<string[]>("world.categories", []);
+    const worldVals = loadPersisted<Record<string, string>>("world.values", {});
+    worldCats.forEach((cat) => {
+      const v = worldVals[cat]?.trim();
+      if (v) points.push({ label: `[World] ${cat}`, content: v });
+    });
+
+    // Fantasy map
+    const map = loadPersisted<Placed[]>("map.items", []);
+    if (map.length) {
+      const counts = map.reduce<Record<string, number>>((acc, it) => {
+        acc[it.icon] = (acc[it.icon] || 0) + 1;
+        return acc;
+      }, {});
+      const summary = Object.entries(counts).map(([icon, n]) => `${icon} ×${n}`).join(", ");
+      points.push({ label: `[Map] Landmarks`, content: summary });
+    }
+
+    // Plot points
+    const plot = loadPersisted<Section[]>("plot.sections", []);
+    plot.filter((s) => s.value?.trim()).forEach((s) =>
+      points.push({ label: `[Plot] ${s.label}`, content: s.value }),
+    );
+
+    // Conflict & arcs
+    const conflict = loadPersisted<Record<string, string>>("conflict.values", {});
+    Object.entries(conflict).filter(([, v]) => v?.trim()).forEach(([k, v]) =>
+      points.push({ label: `[Conflict] ${k}`, content: v }),
+    );
 
     if (points.length === 0) {
-      toast.error("Add plot points or conflict notes first.");
+      toast.error("Fill in any planning tab first.");
       return;
     }
 
@@ -44,8 +87,10 @@ export function SynopsisPanel() {
           <div>
             <h3 className="font-serif text-xl text-foreground">Narrative Synopsis</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              The Siren reads everything in <span className="text-silver">Plot Points</span> and{" "}
-              <span className="text-silver">Conflict & Arcs</span> and weaves it into a single cohesive narrative.
+              The Siren reads everything from <span className="text-silver">Characters</span>,{" "}
+              <span className="text-silver">World Building</span>, <span className="text-silver">Fantasy Map</span>,{" "}
+              <span className="text-silver">Plot Points</span> and <span className="text-silver">Conflict & Arcs</span>,
+              then weaves it into a single cohesive narrative.
             </p>
           </div>
           <Button onClick={onAnalyze} disabled={busy} className="bg-gradient-to-r from-primary to-primary-glow">
@@ -62,7 +107,7 @@ export function SynopsisPanel() {
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-border/60 bg-card/20 p-10 text-center text-sm text-muted-foreground">
-          Fill in your Plot Points and Conflict & Arcs, then summon the Siren above.
+          Fill in any planning tab, then summon the Siren above.
         </div>
       )}
     </div>
