@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Bold, Italic, List, ListOrdered, Heading1, Heading2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { loadPersisted, savePersisted } from "@/lib/persist";
+
+const DRAFT_KEY = "writing.draft";
+const DEFAULT_DRAFT = "<h1>Chapter One</h1><p>Begin your story here…</p>";
 
 export function WritingSuite() {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "<h1>Chapter One</h1><p>Begin your story here…</p>",
+    content: loadPersisted<string>(DRAFT_KEY, DEFAULT_DRAFT),
     editorProps: {
       attributes: {
         class:
@@ -16,7 +20,15 @@ export function WritingSuite() {
       },
     },
     immediatelyRender: false,
+    onUpdate: ({ editor }) => savePersisted(DRAFT_KEY, editor.getHTML()),
   });
+
+  useEffect(() => {
+    const flush = () => editor && savePersisted(DRAFT_KEY, editor.getHTML());
+    window.addEventListener("beforeunload", flush);
+    window.addEventListener("pagehide", flush);
+    return () => { flush(); window.removeEventListener("beforeunload", flush); window.removeEventListener("pagehide", flush); };
+  }, [editor]);
 
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef<any>(null);

@@ -10,6 +10,7 @@ import { WorldBuildingLab } from "@/components/planning/WorldBuildingLab";
 import { FantasyMapBuilder } from "@/components/planning/FantasyMapBuilder";
 import { StorylinePlanner } from "@/components/planning/StorylinePlanner";
 import { ConflictArcPlanner } from "@/components/planning/ConflictArcPlanner";
+import { SynopsisPanel } from "@/components/planning/SynopsisPanel";
 import { WritingSuite } from "@/components/planning/WritingSuite";
 import { SirensCallOverlay } from "@/components/SirensCallOverlay";
 import { canStartNewProject, getActiveProjectId, startNewProject } from "@/lib/oneJourney";
@@ -65,6 +66,7 @@ function PlanningPage() {
             <TabsTrigger value="map">Fantasy Map</TabsTrigger>
             <TabsTrigger value="storyline">Plot Points</TabsTrigger>
             <TabsTrigger value="conflict">Conflict & Arcs</TabsTrigger>
+            <TabsTrigger value="synopsis">Synopsis</TabsTrigger>
             <TabsTrigger value="write">Writing Suite</TabsTrigger>
           </TabsList>
 
@@ -74,6 +76,7 @@ function PlanningPage() {
           <TabsContent value="map" className="mt-6"><FantasyMapBuilder /></TabsContent>
           <TabsContent value="storyline" className="mt-6"><StorylinePlanner /></TabsContent>
           <TabsContent value="conflict" className="mt-6"><ConflictArcPlanner /></TabsContent>
+          <TabsContent value="synopsis" className="mt-6"><SynopsisPanel /></TabsContent>
           <TabsContent value="write" className="mt-6"><WritingSuite /></TabsContent>
         </Tabs>
       </div>

@@ -1,11 +1,8 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, Sparkles } from "lucide-react";
-import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
-import { summarizePlot } from "@/lib/plot.functions";
-import { toast } from "sonner";
+import { Plus, Trash2 } from "lucide-react";
+import { usePersisted } from "@/lib/persist";
 
 type Section = { id: string; label: string; value: string; locked?: boolean };
 
@@ -21,10 +18,7 @@ const DEFAULT_SECTIONS: Section[] = [
 ];
 
 export function StorylinePlanner() {
-  const [sections, setSections] = useState<Section[]>(DEFAULT_SECTIONS);
-  const [synopsis, setSynopsis] = useState("");
-  const [busy, setBusy] = useState(false);
-  const summarize = useServerFn(summarizePlot);
+  const [sections, setSections] = usePersisted<Section[]>("plot.sections", DEFAULT_SECTIONS);
 
   const update = (id: string, value: string) =>
     setSections((s) => s.map((x) => (x.id === id ? { ...x, value } : x)));
@@ -34,29 +28,15 @@ export function StorylinePlanner() {
   const addCustom = () =>
     setSections((s) => [...s, { id: `custom-${Date.now()}`, label: "New Plot Point", value: "" }]);
 
-  const onAnalyze = async () => {
-    const points = sections.filter((s) => s.value.trim()).map((s) => ({ label: s.label, content: s.value }));
-    if (points.length === 0) return toast.error("Add some plot points first.");
-    setBusy(true);
-    try {
-      const res = await summarize({ data: { points } });
-      setSynopsis(res.synopsis);
-    } catch (e: any) { toast.error(e.message); }
-    finally { setBusy(false); }
-  };
-
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur">
-        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h3 className="font-serif text-xl text-foreground">Plot Points Engine</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Fill in each beat. Add custom points anywhere.</p>
-          </div>
-          <Button onClick={onAnalyze} disabled={busy} className="bg-gradient-to-r from-primary to-primary-glow">
-            <Sparkles className="h-4 w-4" />
-            {busy ? "Analyzing…" : "Analyze & Summarize"}
-          </Button>
+        <div className="mb-4">
+          <h3 className="font-serif text-xl text-foreground">Plot Points Engine</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Fill in each beat. Add custom points anywhere. Your work auto-saves as you type.
+            When you're ready, head to the <span className="text-silver">Synopsis</span> tab to weave it together.
+          </p>
         </div>
 
         <div className="space-y-4">
@@ -92,13 +72,6 @@ export function StorylinePlanner() {
           <Plus className="h-4 w-4" /> Add Plot Point
         </Button>
       </div>
-
-      {synopsis && (
-        <div className="rounded-2xl border border-primary/40 bg-card/60 p-6 backdrop-blur">
-          <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary">AI Narrative Synopsis</p>
-          <p className="whitespace-pre-wrap font-serif text-base leading-relaxed text-silver">{synopsis}</p>
-        </div>
-      )}
     </div>
   );
 }

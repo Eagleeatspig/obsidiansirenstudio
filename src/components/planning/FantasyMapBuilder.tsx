@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { usePersisted } from "@/lib/persist";
 import { Stage, Layer, Text } from "react-konva";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -21,7 +22,7 @@ const STAMPS = [
 type Placed = { id: string; icon: string; x: number; y: number };
 
 export function FantasyMapBuilder() {
-  const [items, setItems] = useState<Placed[]>([]);
+  const [items, setItems] = usePersisted<Placed[]>("map.items", []);
   const stageRef = useRef<any>(null);
   const dragIcon = useRef<string | null>(null);
   const [mounted, setMounted] = useState(false);
