@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { dailyMuse } from "@/lib/muse.functions";
 import { Sparkles, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 type Muse = { prompt: string; image: string; whisper: string };
 
@@ -24,7 +25,9 @@ export function DailyMuse() {
       const res = await ask({ data: { seed } });
       setMuse(res as Muse);
       localStorage.setItem(cacheKey, JSON.stringify(res));
-    } catch { /* ignore */ } finally { setLoading(false); }
+    } catch (e: any) {
+      toast.error(e?.message || "The Siren is silent. Try again.");
+    } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchMuse(false); /* eslint-disable-next-line */ }, []);
