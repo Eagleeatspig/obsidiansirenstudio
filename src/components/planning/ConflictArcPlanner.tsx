@@ -1,5 +1,5 @@
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { usePersisted } from "@/lib/persist";
 
 const SECTIONS = [
   ["Main Problem", "What is the central problem driving the story?"],
@@ -13,7 +13,7 @@ const SECTIONS = [
 ];
 
 export function ConflictArcPlanner() {
-  const [vals, setVals] = useState<Record<string, string>>({});
+  const [vals, setVals] = usePersisted<Record<string, string>>("conflict.values", {});
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {SECTIONS.map(([title, hint]) => (
