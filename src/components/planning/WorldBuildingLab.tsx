@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePersisted } from "@/lib/persist";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,8 @@ const DEFAULTS = [
 ];
 
 export function WorldBuildingLab() {
-  const [categories, setCategories] = useState<string[]>(DEFAULTS);
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [categories, setCategories] = usePersisted<string[]>("world.categories", DEFAULTS);
+  const [values, setValues] = usePersisted<Record<string, string>>("world.values", {});
   const [newCat, setNewCat] = useState("");
 
   return (

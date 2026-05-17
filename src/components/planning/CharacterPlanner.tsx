@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePersisted } from "@/lib/persist";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -19,8 +20,8 @@ const DEFAULT_CATEGORIES: Category[] = [
 ];
 
 export function CharacterPlanner() {
-  const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
-  const [characters, setCharacters] = useState<Record<string, Record<string, string>>[]>([{}]);
+  const [categories, setCategories] = usePersisted<Category[]>("characters.categories", DEFAULT_CATEGORIES);
+  const [characters, setCharacters] = usePersisted<Record<string, Record<string, string>>[]>("characters.list", [{}]);
   const [active, setActive] = useState(0);
   const [newCatName, setNewCatName] = useState("");
   const [newFieldByCat, setNewFieldByCat] = useState<Record<string, string>>({});
